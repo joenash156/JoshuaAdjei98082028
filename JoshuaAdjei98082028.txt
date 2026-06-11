@@ -501,7 +501,14 @@ SELECT Movie_Num, Movie_Title, Movie_Cost FROM MOVIE WHERE Movie_Cost > 40;
 
 Question 13
 
-...
+SELECT Movie_Num, Movie_Title, Movie_Cost, Movie_Genre FROM MOVIE WHERE (Movie_Genre = 'ACTION' OR Movie_Genre = 'COMEDY') AND Movie_Cost < 50 ORDER BY Movie_Genre ASC;
++-----------+---------------+------------+-------------+
+| Movie_Num | Movie_Title   | Movie_Cost | Movie_Genre |
++-----------+---------------+------------+-------------+
+|      1245 | Time to Burn  |      45.49 | ACTION      |
+|      1237 | Beatnik Fever |      29.95 | COMEDY      |
++-----------+---------------+------------+-------------+
+2 rows in set (0.14 sec)
 
 
 Question 14
@@ -554,5 +561,115 @@ SELECT Movie_Genre, ROUND(AVG(Movie_Cost), 2) AS `Average Cost` FROM MOVIE GROUP
 +-------------+--------------+
 4 rows in set (0.00 sec)
 
+
+Question 18
+
+SELECT m.Movie_Title, m.Movie_Genre, p.Price_Description, p.Price_Rentfee FROM MOVIE AS m INNER JOIN PRICE AS p ON m.Price_Code = p.Price_Code;
++----------------------------+-------------+-------------------+---------------+
+| Movie_Title                | Movie_Genre | Price_Description | Price_Rentfee |
++----------------------------+-------------+-------------------+---------------+
+| What He Doesn't Know       | COMEDY      | Standard          |           2.5 |
+| The Cesar Family Christmas | FAMILY      | New Release       |           4.0 |
+| Richard Goodhope           | DRAMA       | New Release       |           4.0 |
+| Beatnik Fever              | COMEDY      | New Release       |           4.0 |
+| Smokey Mountain Wildlife   | ACTION      | Discount          |           2.0 |
+| Where Hope Dies            | DRAMA       | Discount          |           2.0 |
+| Time to Burn               | ACTION      | Discount          |           2.0 |
++----------------------------+-------------+-------------------+---------------+
+7 rows in set (0.00 sec)
+
+
+Question 19
+
+SELECT m.Movie_Genre, ROUND(AVG(p.Price_Rentfee), 2) AS `Average Rental Fee` FROM Movie AS m INNER JOIN PRICE AS p ON m.Price_Code = p.Price_Code GROUP BY m.Movie_Genre ORDER BY m.Movie_Genre ASC;
++-------------+--------------------+
+| Movie_Genre | Average Rental Fee |
++-------------+--------------------+
+| ACTION      |               2.00 |
+| COMEDY      |               3.25 |
+| DRAMA       |               3.00 |
+| FAMILY      |               4.00 |
++-------------+--------------------+
+4 rows in set (0.03 sec)
+
+
+Question 20
+
+SELECT m.Movie_Title, ROUND((m.Movie_Cost / p.Price_Rentfee), 2) AS `Breakeven Rentals` FROM Movie AS m INNER JOIN PRICE AS p ON m.Price_Code = p.Price_Code;
++----------------------------+-------------------+
+| Movie_Title                | Breakeven Rentals |
++----------------------------+-------------------+
+| What He Doesn't Know       |             23.32 |
+| The Cesar Family Christmas |              9.99 |
+| Richard Goodhope           |             14.99 |
+| Beatnik Fever              |              7.49 |
+| Smokey Mountain Wildlife   |             29.98 |
+| Where Hope Dies            |             12.75 |
+| Time to Burn               |             22.75 |
++----------------------------+-------------------+
+7 rows in set (0.01 sec)
+
+
+Question 21
+
+SELECT Movie_Title, Movie_Year FROM MOVIE WHERE Price_Code IS NOT NULL;
++----------------------------+------------+
+| Movie_Title                | Movie_Year |
++----------------------------+------------+
+| What He Doesn't Know       | 2013       |
+| The Cesar Family Christmas | 2014       |
+| Richard Goodhope           | 2015       |
+| Beatnik Fever              | 2014       |
+| Smokey Mountain Wildlife   | 2011       |
+| Where Hope Dies            | 2005       |
+| Time to Burn               | 2010       |
++----------------------------+------------+
+7 rows in set (0.00 sec)
+
+
+Question 22
+
+SELECT Movie_Title, Movie_Genre, Movie_Cost FROM MOVIE WHERE Movie_Cost BETWEEN 44.99 AND 49.99;
++--------------+-------------+------------+
+| Movie_Title  | Movie_Genre | Movie_Cost |
++--------------+-------------+------------+
+| Time to Burn | ACTION      |      45.49 |
++--------------+-------------+------------+
+1 row in set (0.01 sec)
+
+
+Question 23
+
+SELECT m.Movie_Title, p.Price_Description, p.Price_Rentfee, m.Movie_Genre FROM MOVIE AS m INNER JOIN PRICE AS p ON m.Price_Code = p.Price_Code WHERE m.Movie_Genre IN ('FAMILY', 'COMEDY', 'DRAMA');
++----------------------------+-------------------+---------------+-------------+
+| Movie_Title                | Price_Description | Price_Rentfee | Movie_Genre |
++----------------------------+-------------------+---------------+-------------+
+| The Cesar Family Christmas | New Release       |           4.0 | FAMILY      |
+| Richard Goodhope           | New Release       |           4.0 | DRAMA       |
+| Beatnik Fever              | New Release       |           4.0 | COMEDY      |
+| Where Hope Dies            | Discount          |           2.0 | DRAMA       |
+| What He Doesn't Know       | Standard          |           2.5 | COMEDY      |
++----------------------------+-------------------+---------------+-------------+
+5 rows in set (0.00 sec)
+
+
+Question 24
+
+SELECT DISTINCT m.Mem_Num, m.Mem_Fname, m.Mem_Lname, m.Mem_Balance FROM MEMBERSHIP AS m INNER JOIN RENTAL AS r ON m.Mem_Num = r.Mem_Num;
++---------+-----------+-----------+-------------+
+| Mem_Num | Mem_Fname | Mem_Lname | Mem_Balance |
++---------+-----------+-----------+-------------+
+|     102 | Tami      | Dawson    |          11 |
+|     103 | Curt      | Knight    |           6 |
+|     104 | Jamal     | Melendez  |           0 |
+|     105 | Iva       | Mcclain   |          15 |
+|     107 | Rosario   | Elliott   |           5 |
+|     110 | Lewis     | Rosales   |           0 |
+|     111 | Stacy     | Mann      |           8 |
++---------+-----------+-----------+-------------+
+7 rows in set (0.00 sec)
+
+
+Question 25
 
 
