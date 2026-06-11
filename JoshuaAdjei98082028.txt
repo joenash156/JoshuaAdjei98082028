@@ -22,7 +22,7 @@ DESCRIBE MEMBERSHIP;
 +-------------+--------------+------+-----+---------+----------------+
 8 rows in set (0.10 sec)
 
-CREATE TABLE RENTAL (Rent_Num INT PRIMARY KEY AUTO_INCREMENT, Rent_Date VARCHAR(15) NOT NULL, Mem_Num INT NOT NULL, FOREIGN KEY (Mem_Num) REFERENCES membership (Mem_Num));
+CREATE TABLE RENTAL (Rent_Num INT PRIMARY KEY AUTO_INCREMENT, Rent_Date DATE, Mem_Num INT NOT NULL, FOREIGN KEY (Mem_Num) REFERENCES membership (Mem_Num));
 Query OK, 0 rows affected (0.03 sec)
 
 DESCRIBE RENTAL;
@@ -30,7 +30,7 @@ DESCRIBE RENTAL;
 | Field     | Type        | Null | Key | Default | Extra          |
 +-----------+-------------+------+-----+---------+----------------+
 | Rent_Num  | int         | NO   | PRI | NULL    | auto_increment |
-| Rent_Date | varchar(15) | NO   |     | NULL    |                |
+| Rent_Date | date 	  | YES  |     | NULL    |                |
 | Mem_Num   | int         | NO   | MUL | NULL    |                |
 +-----------+-------------+------+-----+---------+----------------+
 3 rows in set (0.05 sec)
@@ -65,7 +65,7 @@ DESCRIBE MOVIE;
 +-------------+--------------+------+-----+---------+-------+
 6 rows in set (0.03 sec)
 
-CREATE TABLE VIDEO (Vid_Num INT PRIMARY KEY, Vid_Indate VARCHAR(15) NOT NULL, Movie_Num INT NOT NULL, FOREIGN KEY (Movie_Num) REFERENCES movie (Movie_Num));
+CREATE TABLE VIDEO (Vid_Num INT PRIMARY KEY, Vid_Indate DATE, Movie_Num INT NOT NULL, FOREIGN KEY (Movie_Num) REFERENCES movie (Movie_Num));
 Query OK, 0 rows affected (0.03 sec)
 
 DESCRIBE VIDEO;
@@ -73,12 +73,12 @@ DESCRIBE VIDEO;
 | Field      | Type        | Null | Key | Default | Extra |
 +------------+-------------+------+-----+---------+-------+
 | Vid_Num    | int         | NO   | PRI | NULL    |       |
-| Vid_Indate | varchar(15) | NO   |     | NULL    |       |
+| Vid_Indate | date 	   | YES  |     | NULL    |       |
 | Movie_Num  | int         | NO   | MUL | NULL    |       |
 +------------+-------------+------+-----+---------+-------+
 3 rows in set (0.01 sec)
 
-CREATE TABLE DETAILRENTAL (Rent_Num INT NOT NULL, Vid_Num INT NOT NULL, Detail_Fee DECIMAL(5, 1) NOT NULL, Detail_Duedate VARCHAR(15) NOT NULL, Detail_Returndate VARCHAR(15) NOT NULL, Detail_Dailylatefee DECIMAL(5, 1) NOT NULL, PRIMARY KEY (Rent_Num, Vid_Num), FOREIGN KEY (Rent_Num) REFERENCES rental (Rent_Num), FOREIGN KEY (Vid_Num) REFERENCES VIDEO (Vid_Num))
+CREATE TABLE DETAILRENTAL (Rent_Num INT NOT NULL, Vid_Num INT NOT NULL, Detail_Fee DECIMAL(5, 1) NOT NULL, Detail_Duedate DATE, Detail_Returndate DATE, Detail_Dailylatefee DECIMAL(5, 1), PRIMARY KEY (Rent_Num, Vid_Num), FOREIGN KEY (Rent_Num) REFERENCES rental (Rent_Num), FOREIGN KEY (Vid_Num) REFERENCES VIDEO (Vid_Num))
 Query OK, 0 rows affected (0.06 sec)
 
 DESCRIBE DETAILRENTAL;
@@ -88,9 +88,9 @@ DESCRIBE DETAILRENTAL;
 | Rent_Num            | int          | NO   | PRI | NULL    |       |
 | Vid_Num             | int          | NO   | PRI | NULL    |       |
 | Detail_Fee          | decimal(5,1) | NO   |     | NULL    |       |
-| Detail_Duedate      | varchar(15)  | NO   |     | NULL    |       |
-| Detail_Returndate   | varchar(15)  | NO   |     | NULL    |       |
-| Detail_Dailylatefee | decimal(5,1) | NO   |     | NULL    |       |
+| Detail_Duedate      | date  	     | YES  |     | NULL    |       |
+| Detail_Returndate   | date  	     | YES  |     | NULL    |       |
+| Detail_Dailylatefee | decimal(5,1) | YES  |     | NULL    |       |
 +---------------------+--------------+------+-----+---------+-------+
 6 rows in set (0.01 sec)
 
@@ -139,33 +139,33 @@ SELECT * FROM MEMBERSHIP;
 
 INSERT INTO RENTAL (Rent_Num, Rent_Date, Mem_Num)
 VALUES
-(1001, '01-MAR-16', 103),
-(1002, '01-MAR-16', 105),
-(1003, '02-MAR-16', 102),
-(1004, '02-MAR-16', 110),
-(1005, '02-MAR-16', 111),
-(1006, '02-MAR-16', 107),
-(1007, '02-MAR-16', 104),
-(1008, '03-MAR-16', 105),
-(1009, '03-MAR-16', 111);
+(1001, '2016-03-01', 103),
+(1002, '2016-03-01', 105),
+(1003, '2016-03-02', 102),
+(1004, '2016-03-02', 110),
+(1005, '2016-03-02', 111),
+(1006, '2016-03-02', 107),
+(1007, '2016-03-02', 104),
+(1008, '2016-03-03', 105),
+(1009, '2016-03-03', 111);
 Query OK, 9 rows affected (0.03 sec)
 Records: 9  Duplicates: 0  Warnings: 0
 
 SELECT * FROM RENTAL;
-+----------+-----------+---------+
-| Rent_Num | Rent_Date | Mem_Num |
-+----------+-----------+---------+
-|     1001 | 01-MAR-16 |     103 |
-|     1002 | 01-MAR-16 |     105 |
-|     1003 | 02-MAR-16 |     102 |
-|     1004 | 02-MAR-16 |     110 |
-|     1005 | 02-MAR-16 |     111 |
-|     1006 | 02-MAR-16 |     107 |
-|     1007 | 02-MAR-16 |     104 |
-|     1008 | 03-MAR-16 |     105 |
-|     1009 | 03-MAR-16 |     111 |
-+----------+-----------+---------+
-9 rows in set (0.04 sec)
++----------+------------+---------+
+| Rent_Num | Rent_Date  | Mem_Num |
++----------+------------+---------+
+|     1001 | 2016-03-01 |     103 |
+|     1002 | 2016-03-01 |     105 |
+|     1003 | 2016-03-02 |     102 |
+|     1004 | 2016-03-02 |     110 |
+|     1005 | 2016-03-02 |     111 |
+|     1006 | 2016-03-02 |     107 |
+|     1007 | 2016-03-02 |     104 |
+|     1008 | 2016-03-03 |     105 |
+|     1009 | 2016-03-03 |     111 |
++----------+------------+---------+
+9 rows in set (0.01 sec)
 
 
 INSERT INTO PRICE (Price_Code, Price_Description, Price_Rentfee, Price_Dailylatefee)
@@ -220,21 +220,21 @@ SELECT * FROM MOVIE;
 
 INSERT INTO VIDEO (Vid_Num, Vid_Indate, Movie_Num)
 VALUES
-(54321, '18-JUN-15', 1234),
-(54324, '18-JUN-15', 1234),
-(54325, '18-JUN-15', 1234),
-(34341, '22-JAN-14', 1235),
-(34342, '22-JAN-14', 1235),
-(34366, '02-MAR-16', 1236),
-(34367, '02-MAR-16', 1236),
-(34368, '02-MAR-16', 1236),
-(34369, '02-MAR-16', 1236),
-(44392, '21-OCT-15', 1237),
-(44397, '21-OCT-15', 1237),
-(59237, '14-FEB-16', 1237),
-(61388, '25-JAN-14', 1239),
-(61353, '28-JAN-13', 1245),
-(61354, '28-JAN-13', 1245);
+(54321, '2015-06-18', 1234),
+(54324, '2015-06-18', 1234),
+(54325, '2015-06-18', 1234),
+(34341, '2014-01-22', 1235),
+(34342, '2014-01-22', 1235),
+(34366, '2016-03-02', 1236),
+(34367, '2016-03-02', 1236),
+(34368, '2016-03-02', 1236),
+(34369, '2016-03-02', 1236),
+(44392, '2015-10-21', 1237),
+(44397, '2015-10-21', 1237),
+(59237, '2016-02-14', 1237),
+(61388, '2014-01-25', 1239),
+(61353, '2013-01-28', 1245),
+(61354, '2013-01-28', 1245);
 Query OK, 15 rows affected (0.09 sec)
 Records: 15  Duplicates: 0  Warnings: 0
 
@@ -242,44 +242,45 @@ SELECT * FROM VIDEO;
 +---------+------------+-----------+
 | Vid_Num | Vid_Indate | Movie_Num |
 +---------+------------+-----------+
-|   34341 | 22-JAN-14  |      1235 |
-|   34342 | 22-JAN-14  |      1235 |
-|   34366 | 02-MAR-16  |      1236 |
-|   34367 | 02-MAR-16  |      1236 |
-|   34368 | 02-MAR-16  |      1236 |
-|   34369 | 02-MAR-16  |      1236 |
-|   44392 | 21-OCT-15  |      1237 |
-|   44397 | 21-OCT-15  |      1237 |
-|   54321 | 18-JUN-15  |      1234 |
-|   54324 | 18-JUN-15  |      1234 |
-|   54325 | 18-JUN-15  |      1234 |
-|   59237 | 14-FEB-16  |      1237 |
-|   61353 | 28-JAN-13  |      1245 |
-|   61354 | 28-JAN-13  |      1245 |
-|   61388 | 25-JAN-14  |      1239 |
+|   34341 | 2014-01-22 |      1235 |
+|   34342 | 2014-01-22 |      1235 |
+|   34366 | 2016-03-02 |      1236 |
+|   34367 | 2016-03-02 |      1236 |
+|   34368 | 2016-03-02 |      1236 |
+|   34369 | 2016-03-02 |      1236 |
+|   44392 | 2015-10-21 |      1237 |
+|   44397 | 2015-10-21 |      1237 |
+|   54321 | 2015-06-18 |      1234 |
+|   54324 | 2015-06-18 |      1234 |
+|   54325 | 2015-06-18 |      1234 |
+|   59237 | 2016-02-14 |      1237 |
+|   61353 | 2013-01-28 |      1245 |
+|   61354 | 2013-01-28 |      1245 |
+|   61388 | 2014-01-25 |      1239 |
 +---------+------------+-----------+
-15 rows in set (0.03 sec)
+15 rows in set (0.02 sec)
 
 
-INSERT INTO DETAILRENTAL (Rent_Num, Vid_Num, Detail_Fee, Detail_Duedate, Detail_Returndate, Detail_Dailylatefee)
+INSERT INTO DETAILRENTAL
+(Rent_Num, Vid_Num, Detail_Fee, Detail_Duedate, Detail_Returndate, Detail_Dailylatefee)
 VALUES
-(1001, 34342, 2.0, '04-MAR-16', '02-MAR-16', 1.0),
-(1001, 61353, 2.0, '04-MAR-16', '03-MAR-16', 1.0),
-(1002, 59237, 3.5, '04-MAR-16', '04-MAR-16', 3.0),
-(1003, 54325, 3.5, '04-MAR-16', '09-MAR-16', 3.0),
-(1003, 34369, 2.0, '06-MAR-16', '09-MAR-16', 1.0),
-(1003, 61388, 0.0, '06-MAR-16', '09-MAR-16', 1.0),
-(1004, 44392, 3.5, '05-MAR-16', '07-MAR-16', 3.0),
-(1004, 34367, 3.5, '05-MAR-16', '07-MAR-16', 3.0),
-(1004, 34341, 2.0, '07-MAR-16', '07-MAR-16', 1.0),
-(1005, 34342, 2.0, '07-MAR-16', '05-MAR-16', 1.0),
-(1005, 44397, 3.5, '05-MAR-16', '05-MAR-16', 3.0),
-(1006, 34366, 3.5, '05-MAR-16', '04-MAR-16', 3.0),
-(1006, 61354, 2.0, '07-MAR-16', '07-MAR-16', 1.0),
-(1007, 34368, 3.5, '05-MAR-16', '06-MAR-16', 3.0),
-(1008, 34369, 3.5, '05-MAR-16', '05-MAR-16', 3.0),
-(1009, 54324, 3.5, '05-MAR-16', '06-MAR-16', 3.0),
-(1001, 34366, 3.5, '04-MAR-16', '02-MAR-16', 3.0);
+(1001, 34342, 2.0, '2016-03-04', '2016-03-02', NULL),
+(1001, 61353, 2.0, '2016-03-04', '2016-03-03', 1.0),
+(1002, 59237, 3.5, '2016-03-04', '2016-03-04', 3.0),
+(1003, 54325, 3.5, '2016-03-04', '2016-03-09', 3.0),
+(1003, 61369, 2.0, '2016-03-06', '2016-03-09', 1.0),
+(1003, 61388, 0.0, '2016-03-06', '2016-03-09', 1.0),
+(1004, 44392, 3.5, '2016-03-05', '2016-03-07', 3.0),
+(1004, 34367, 3.5, '2016-03-05', '2016-03-07', 3.0),
+(1004, 34341, 2.0, '2016-03-07', '2016-03-07', 1.0),
+(1005, 34342, 2.0, '2016-03-07', '2016-03-05', 1.0),
+(1005, 44397, 3.5, '2016-03-05', '2016-03-05', 3.0),
+(1006, 34366, 3.5, '2016-03-05', '2016-03-04', 3.0),
+(1006, 61367, 2.0, '2016-03-07', NULL, 1.0),
+(1007, 34368, 3.5, '2016-03-05', NULL, 3.0),
+(1008, 34369, 3.5, '2016-03-05', '2016-03-05', 3.0),
+(1009, 54324, 3.5, '2016-03-05', NULL, 3.0),
+(1001, 34366, 3.5, '2016-03-04', '2016-03-02', 3.0);
 Query OK, 17 rows affected (0.01 sec)
 Records: 17  Duplicates: 0  Warnings: 0
 
@@ -287,25 +288,25 @@ SELECT * FROM DETAILRENTAL;
 +----------+---------+------------+----------------+-------------------+---------------------+
 | Rent_Num | Vid_Num | Detail_Fee | Detail_Duedate | Detail_Returndate | Detail_Dailylatefee |
 +----------+---------+------------+----------------+-------------------+---------------------+
-|     1001 |   34342 |        2.0 | 04-MAR-16      | 02-MAR-16         |                 1.0 |
-|     1001 |   34366 |        3.5 | 04-MAR-16      | 02-MAR-16         |                 3.0 |
-|     1001 |   61353 |        2.0 | 04-MAR-16      | 03-MAR-16         |                 1.0 |
-|     1002 |   59237 |        3.5 | 04-MAR-16      | 04-MAR-16         |                 3.0 |
-|     1003 |   34369 |        2.0 | 06-MAR-16      | 09-MAR-16         |                 1.0 |
-|     1003 |   54325 |        3.5 | 04-MAR-16      | 09-MAR-16         |                 3.0 |
-|     1003 |   61388 |        0.0 | 06-MAR-16      | 09-MAR-16         |                 1.0 |
-|     1004 |   34341 |        2.0 | 07-MAR-16      | 07-MAR-16         |                 1.0 |
-|     1004 |   34367 |        3.5 | 05-MAR-16      | 07-MAR-16         |                 3.0 |
-|     1004 |   44392 |        3.5 | 05-MAR-16      | 07-MAR-16         |                 3.0 |
-|     1005 |   34342 |        2.0 | 07-MAR-16      | 05-MAR-16         |                 1.0 |
-|     1005 |   44397 |        3.5 | 05-MAR-16      | 05-MAR-16         |                 3.0 |
-|     1006 |   34366 |        3.5 | 05-MAR-16      | 04-MAR-16         |                 3.0 |
-|     1006 |   61354 |        2.0 | 07-MAR-16      | 07-MAR-16         |                 1.0 |
-|     1007 |   34368 |        3.5 | 05-MAR-16      | 06-MAR-16         |                 3.0 |
-|     1008 |   34369 |        3.5 | 05-MAR-16      | 05-MAR-16         |                 3.0 |
-|     1009 |   54324 |        3.5 | 05-MAR-16      | 06-MAR-16         |                 3.0 |
+|     1001 |   34342 |        2.0 | 2016-03-04     | 2016-03-02        |                 NULL|
+|     1001 |   34366 |        3.5 | 2016-03-04     | 2016-03-02        |                 3.0 |
+|     1001 |   61353 |        2.0 | 2016-03-04     | 2016-03-03        |                 1.0 |
+|     1002 |   59237 |        3.5 | 2016-03-04     | 2016-03-04        |                 3.0 |
+|     1003 |   34369 |        2.0 | 2016-03-06     | 2016-03-09        |                 1.0 |
+|     1003 |   54325 |        3.5 | 2016-03-04     | 2016-03-09        |                 3.0 |
+|     1003 |   61388 |        0.0 | 2016-03-06     | 2016-03-09        |                 1.0 |
+|     1004 |   34341 |        2.0 | 2016-03-07     | 2016-03-07        |                 1.0 |
+|     1004 |   34367 |        3.5 | 2016-03-05     | 2016-03-07        |                 3.0 |
+|     1004 |   44392 |        3.5 | 2016-03-05     | 2016-03-07        |                 3.0 |
+|     1005 |   34342 |        2.0 | 2016-03-07     | 2016-03-05        |                 1.0 |
+|     1005 |   44397 |        3.5 | 2016-03-05     | 2016-03-05        |                 3.0 |
+|     1006 |   34366 |        3.5 | 2016-03-05     | 2016-03-04        |                 3.0 |
+|     1006 |   61354 |        2.0 | 2016-03-07     | NULL              |                 1.0 |
+|     1007 |   34368 |        3.5 | 2016-03-05     | NULL              |                 3.0 |
+|     1008 |   34369 |        3.5 | 2016-03-05     | 2016-03-05        |                 3.0 |
+|     1009 |   54324 |        3.5 | 2016-03-05     | NULL              |                 3.0 |
 +----------+---------+------------+----------------+-------------------+---------------------+
-17 rows in set (0.03 sec)
+17 rows in set (0.00 sec)
 
 
 Question 3
@@ -671,5 +672,65 @@ SELECT DISTINCT m.Mem_Num, m.Mem_Fname, m.Mem_Lname, m.Mem_Balance FROM MEMBERSH
 
 
 Question 25
+
+SELECT MIN(Mem_Balance) AS `Minimum Balance`, MAX(Mem_Balance) AS `Maximum Balance`, ROUND(AVG(Mem_Balance), 2) AS `Average Balance` FROM MEMBERSHIP WHERE Mem_Num IN (SELECT DISTINCT Mem_Num FROM RENTAL);
++-----------------+-----------------+-----------------+
+| Minimum Balance | Maximum Balance | Average Balance |
++-----------------+-----------------+-----------------+
+|               0 |              15 |            6.43 |
++-----------------+-----------------+-----------------+
+1 row in set (0.00 sec)
+
+
+Question 26
+
+SELECT r.Rent_Num, r.Rent_Date, d.Vid_Num, m.Movie_Title, d.Detail_Duedate, d.Detail_Returndate FROM RENTAL AS r INNER JOIN DETAILRENTAL AS d ON r.Rent_Num = d.Rent_Num INNER JOIN VIDEO AS v ON d.Vid_Num = v.Vid_Num INNER JOIN MOVIE AS m ON v.Movie_Num = m.Movie_Num WHERE d.Detail_Returndate > d.Detail_Duedate ORDER BY r.Rent_Num ASC, m.Movie_Title ASC;
++----------+------------+---------+----------------------------+----------------+-------------------+
+| Rent_Num | Rent_Date  | Vid_Num | Movie_Title                | Detail_Duedate | Detail_Returndate |
++----------+------------+---------+----------------------------+----------------+-------------------+
+|     1003 | 2016-03-02 |   34369 | Richard Goodhope           | 2016-03-06     | 2016-03-09        |
+|     1003 | 2016-03-02 |   54325 | The Cesar Family Christmas | 2016-03-04     | 2016-03-09        |
+|     1003 | 2016-03-02 |   61388 | Where Hope Dies            | 2016-03-06     | 2016-03-09        |
+|     1004 | 2016-03-02 |   44392 | Beatnik Fever              | 2016-03-05     | 2016-03-07        |
+|     1004 | 2016-03-02 |   34367 | Richard Goodhope           | 2016-03-05     | 2016-03-07        |
++----------+------------+---------+----------------------------+----------------+-------------------+
+5 rows in set (0.03 sec)
+
+
+Question 27
+
+SELECT r.Rent_Num, r.Rent_Date, m.Movie_Title, d.Detail_Fee FROM RENTAL AS r INNER JOIN DETAILRENTAL AS d ON r.Rent_Num = d.Rent_Num INNER JOIN VIDEO AS v ON d.Vid_Num = v.Vid_Num INNER JOIN MOVIE AS m ON v.Movie_Num = m.Movie_Num WHERE d.Detail_Returndate <= d.Detail_Duedate;
++----------+------------+--------------------------+------------+
+| Rent_Num | Rent_Date  | Movie_Title              | Detail_Fee |
++----------+------------+--------------------------+------------+
+|     1001 | 2016-03-01 | Smokey Mountain Wildlife |        2.0 |
+|     1001 | 2016-03-01 | Richard Goodhope         |        3.5 |
+|     1001 | 2016-03-01 | Time to Burn             |        2.0 |
+|     1002 | 2016-03-01 | Beatnik Fever            |        3.5 |
+|     1004 | 2016-03-02 | Smokey Mountain Wildlife |        2.0 |
+|     1005 | 2016-03-02 | Smokey Mountain Wildlife |        2.0 |
+|     1005 | 2016-03-02 | Beatnik Fever            |        3.5 |
+|     1006 | 2016-03-02 | Richard Goodhope         |        3.5 |
+|     1008 | 2016-03-03 | Richard Goodhope         |        3.5 |
++----------+------------+--------------------------+------------+
+9 rows in set (0.00 sec)
+
+
+Question 28
+
+SELECT m.Movie_Num, m.Movie_Genre, ROUND(g.Avg_Cost, 2) AS `Average Cost`, m.Movie_Cost, ROUND(((m.Movie_Cost - g.Avg_Cost) / g.Avg_Cost) * 100, 2) AS `Percent Difference` FROM MOVIE AS m JOIN (SELECT Movie_Genre, AVG(Movie_Cost) AS Avg_Cost FROM MOVIE GROUP BY Movie_Genre) g ON m.Movie_Genre = g.Movie_Genre;
++-----------+-------------+--------------+------------+--------------------+
+| Movie_Num | Movie_Genre | Average Cost | Movie_Cost | Percent Difference |
++-----------+-------------+--------------+------------+--------------------+
+|      1234 | FAMILY      |        39.95 |      39.95 |               0.00 |
+|      1235 | ACTION      |        52.72 |      59.95 |              13.71 |
+|      1236 | DRAMA       |        58.46 |      59.95 |               2.54 |
+|      1237 | COMEDY      |        44.12 |      29.95 |             -32.12 |
+|      1238 | DRAMA       |        58.46 |      89.95 |              53.86 |
+|      1239 | DRAMA       |        58.46 |      25.49 |             -56.40 |
+|      1245 | ACTION      |        52.72 |      45.49 |             -13.71 |
+|      1246 | COMEDY      |        44.12 |      58.29 |              32.12 |
++-----------+-------------+--------------+------------+--------------------+
+8 rows in set (0.00 sec)
 
 
