@@ -1,3 +1,7 @@
+JOSHUA ADJEI
+98082028
+COHORT C
+
 create database elitevideo_db;
 Query OK, 1 row affected (0.02 sec)
 
